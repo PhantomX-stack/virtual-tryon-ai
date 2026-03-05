@@ -140,7 +140,7 @@
         .try-on-section {
             background: 
                 linear-gradient(135deg, rgba(255,240,245,0.95) 0%, rgba(255,250,240,0.95) 100%),
-                url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fashion-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="%23ff69b4" opacity="0.1"/><circle cx="50" cy="50" r="2" fill="%23ff1493" opacity="0.1"/><circle cx="90" cy="90" r="2" fill="%23ff69b4" opacity="0.1"/><path d="M20,20 Q30,10 40,20 T60,20" stroke="%23ffc0cb" stroke-width="0.5" fill="none" opacity="0.4"/><path d="M70,70 Q80,60 90,70" stroke="%23ffb6c1" stroke-width="0.5" fill="none" opacity="0.4"/></pattern></defs><rect width="100" height="100" fill="url(%23fashion-pattern)"/></svg>');
+                url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fashion-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="%23ff69b4" opacity="0.4"/><circle cx="50" cy="50" r="2" fill="%23ff1493" opacity="0.4"/><circle cx="90" cy="90" r="2" fill="%23ff69b4" opacity="0.4"/><path d="M20,20 Q30,10 40,20 T60,20" stroke="%23ffc0cb" stroke-width="0.5" fill="none" opacity="0.4"/><path d="M70,70 Q80,60 90,70" stroke="%23ffb6c1" stroke-width="0.5" fill="none" opacity="0.4"/></pattern></defs><rect width="100" height="100" fill="url(%23fashion-pattern)"/></svg>');
             background-size: auto, 100px 100px;
             background-blend-mode: overlay;border-radius: 25px;
             padding: 50px;
@@ -936,27 +936,6 @@ background:
         position: fixed;
         bottom: 30px;
         right: 30px;
-            <!-- Floating Chat Button with Better Visibility -->
-    <div id="floating-chat-btn" onclick="showLiveChat()" style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 70px;
-        height: 70px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
-        z-index: 99999;
-        transition: all 0.3s ease;
-        animation: chatPulse 2.5s infinite ease-in-out;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-    ">
-        <span style="font-size: 32px; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">💬</span>
-    </div>
 
     <style>
         @keyframes chatPulse {
