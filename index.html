@@ -3,176 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Virtual Clothing Try-On | Hadoop Big Data Processing</title>
+    <title>Virtual Try-On AI | Hadoop Big Data Fashion</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        header {
-            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             color: white;
-            margin-bottom: 40px;
-            animation: slideDown 0.6s ease-out;
+            min-height: 100vh;
         }
-        header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        header p { font-size: 1.2em; opacity: 0.9; }
-        .localhost-badge {
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .badge {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
+            background: linear-gradient(45deg, #667eea, #764ba2);
             padding: 10px 20px;
-            border-radius: 20px;
-            margin: 15px 0;
-            font-size: 0.9em;
-            border: 2px solid white;
+            border-radius: 25px;
+            font-size: 14px;
+            margin: 10px 0;
         }
-        .content {
+        
+        /* Try-On Section */
+        .try-on-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
+        }
+        .upload-section, .preview-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .upload-section h2, .preview-section h2 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        .upload-area:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #764ba2;
+        }
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        .webcam-btn, .analyze-btn, .suggest-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .webcam-btn:hover, .analyze-btn:hover, .suggest-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        #preview-canvas {
+            width: 100%;
+            border-radius: 15px;
+            background: #000;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        
+        /* Features Grid */
+        .features {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
             margin-bottom: 40px;
         }
-        .card {
-            background: white;
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: fadeIn 0.8s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
         }
-        .card h2 { color: #667eea; margin-bottom: 20px; display: flex; align-items: center; }
-        .card h2::before {
-            font-size: 1.5em;
-            margin-right: 10px;
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
-        .feature-list { list-style: none; }
-        .feature-list li { padding: 10px 0; color: #555; border-bottom: 1px solid #eee; }
-        .feature-list li:last-child { border: none; }
-        .feature-list li::before { content: "✓ "; color: #667eea; font-weight: bold; margin-right: 10px; }
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 20px;
-            transition: transform 0.2s;
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .status-bar {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 30px;
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        /* Results Section */
+        .results {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            text-align: center;
+            margin-top: 20px;
         }
-        .status-item h3 { color: #667eea; margin-bottom: 10px; }
-        .status-item .status-code {
-            font-family: 'Courier New', monospace;
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 5px;
-            color: #00aa00;
-            font-weight: bold;
-        }
-        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .port-notice {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            color: #856404;
-            padding: 15px;
+        .result-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
             border-radius: 10px;
-            margin: 20px 0;
             text-align: center;
+        }
+        .result-label {
+            color: #667eea;
             font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 50px 20px;
+            margin-top: 80px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        .footer-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .footer-section a {
+            display: block;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .footer-section a:hover {
+            color: #667eea;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+        
+        /* Animation */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .try-on-container {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>👗 Virtual Try-On AI</h1>
-            <p>Real-Time Clothing Try-On using Hadoop Big Data Processing</p>
-            <div class="localhost-badge">
-                🌐 Frontend: localhost:5173 | Backend: localhost:5000
-            </div>
-        </header>
 
-        <div class="port-notice">
-            ⚡ Running on TWO Localhost Ports:<br>
-            Frontend Website: <strong>http://localhost:5173</strong><br>
-            Backend API Server: <strong>http://localhost:5000</strong>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🎭 Virtual Try-On AI</div>
+        <ul class="nav-links">
+            <li><a href="#try-on">Try Now</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#support">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Real-Time Virtual Clothing Try-On</h1>
+        <p>AI-powered fashion platform with Hadoop Big Data processing for personalized outfit recommendations</p>
+        <div class="badge">💻 Frontend: localhost:5173 | 🔧 Backend: localhost:5000</div>
+    </div>
+
+    <!-- Try-On Section -->
+    <div class="try-on-container" id="try-on">
+        <div class="upload-section">
+            <h2>📸 Upload Your Photo</h2>
+            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📤</div>
+                <p>Click to upload your photo</p>
+                <p style="font-size: 12px; color: #666;">or drag and drop here</p>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
+            </div>
+            <button class="webcam-btn" onclick="startWebcam()">📷 Use Webcam Instead</button>
+            <button class="analyze-btn" onclick="analyzeBody()">🔍 Analyze Body & Skin Tone</button>
+            <button class="suggest-btn" onclick="getSuggestions()">✨ Get AI Outfit Suggestions</button>
         </div>
-
-        <div class="content">
-            <div class="card">
-                <h2>📸 Virtual Try-On Features</h2>
-                <ul class="feature-list">
-                    <li>Real-time garment visualization with AI</li>
-                    <li>Webcam and photo upload support</li>
-                    <li>Automatic body shape detection</li>
-                    <li>Height and measurement estimation</li>
-                    <li>Skin tone analysis (5+ categories)</li>
-                    <li>Clothing overlay with 3D simulation</li>
-                </ul>
-                <button onclick="alert('Upload photo feature coming soon!\n\nStart with: npm run dev on port 5000')">📤 Upload Photo</button>
-            </div>
-
-            <div class="card">
-                <h2>🤖 AI & Hadoop Processing</h2>
-                <ul class="feature-list">
-                    <li>TensorFlow.js for real-time detection</li>
-                    <li>MediaPipe for pose estimation</li>
-                    <li>Hadoop batch analytics</li>
-                    <li>Big Data recommendations engine</li>
-                    <li>Personalized outfit suggestions</li>
-                    <li>Color matching by skin tone</li>
-                </ul>
-                <button onclick="alert('Backend API running on localhost:5000\n\nCheck: GET /api/health')">🔧 API Status</button>
-            </div>
-        </div>
-
-        <div class="status-bar">
-            <div class="status-item">
-                <h3>Frontend Status</h3>
-                <div class="status-code">✅ Running</div>
-                <p style="margin-top: 10px; font-size: 0.9em;">localhost:5173</p>
-            </div>
-            <div class="status-item">
-                <h3>Backend Status</h3>
-                <div class="status-code">✅ Ready</div>
-                <p style="margin-top: 10px; font-size: 0.9em;">localhost:5000</p>
-            </div>
-            <div class="status-item">
-                <h3>Hadoop Integration</h3>
-                <div class="status-code">✅ Active</div>
-                <p style="margin-top: 10px; font-size: 0.9em;">Big Data Enabled</p>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top: 30px; background: #f8f9fa;">
-            <h2 style="color: #555;">🚀 Quick Start Guide</h2>
-            <p style="color: #555; line-height: 1.8; margin: 15px 0;">
-                <strong>Step 1:</strong> Backend already running on <code style="background: white; padding: 2px 5px; border-radius: 3px;">localhost:5000</code><br>
-                <strong>Step 2:</strong> Frontend accessible on <code style="background: white; padding: 2px 5px; border-radius: 3px;">localhost:5173</code><br>
-                <strong>Step 3:</strong> Check API health: <code style="background: white; padding: 2px 5px; border-radius: 3px;">GET /api/health</code><br>
-                <strong>Step 4:</strong> Upload photo and click "Analyze Body"<br>
-                <strong>Step 5:</strong> Receive AI-powered recommendations from Hadoop<br>
-            </p>
-            <button onclick="fetch('http://localhost:5000/api/health').then(r => r.json()).then(d => alert('Backend Response:\n' + JSON.stringify(d, null, 2))).catch(e => alert('Backend not running. Start with: npm run dev'))">🔍 Test Backend Connection</button>
+        
+        <div class="preview-section">
+            <h2>👔 Virtual Try-On Preview</h2>
+            <canvas id="preview-canvas">Your preview will appear here</canvas>
+            <video id="webcam" style="display: none; width: 100%; border-radius: 15px;"></video>
+            <img id="uploaded-img" style="display: none; width: 100%; border-radius: 15px;">
         </div>
     </div>
+
+    <!-- Results Section -->
+    <div class="results" id="results">
+        <h2>🎯 Analysis Results</h2>
+        <div class="result-grid">
+            <div class="result-item">
+                <div class="result-label">Height</div>
+                <div id="height-result">--</div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Body Shape</div>
+                <div id="body-result">--</div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Skin Tone</div>
+                <div id="skin-result">--</div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Recommended Size</div>
+                <div id="size-result">--</div>
+            </div>
+        </div>
+        <div id="suggestions" style="margin-top: 30px;"></div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features" id="features">
+        <h2>🚀 Powerful AI Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Real-Time Detection</h3>
+                <p>TensorFlow.js and MediaPipe for instant body detection and pose estimation</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Hadoop Big Data</h3>
+                <p>Process millions of fashion combinations with distributed computing</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Skin Tone Analysis</h3>
+                <p>5+ categories with color matching algorithms for perfect outfit suggestions</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📏</div>
+                <h3>Body Measurements</h3>
+                <p>Automatic height, body shape, and measurement detection from photos</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👗</div>
+                <h3>3D Garment Overlay</h3>
+                <p>Realistic clothing visualization with physics-based rendering</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Smart Suggestions</h3>
+                <p>Personalized outfit recommendations based on your unique style profile</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="features" id="about">
+        <h2>📖 About This Project</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center; color: #aaa; line-height: 1.8;">
+            <p>This virtual try-on system combines cutting-edge AI with Hadoop Big Data processing to deliver personalized fashion recommendations. Built for beginners and professionals alike, it runs seamlessly on localhost and can be deployed anywhere.</p>
+            <br>
+            <p><strong>Tech Stack:</strong> Node.js, Express, TensorFlow.js, MediaPipe, Hadoop, React/Vue</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="support">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🛠️ Support</h3>
+                <a href="https://github.com/PhantomX-stack/virtual-tryon-ai/issues" target="_blank">Report an Issue</a>
+                <a href="https://github.com/PhantomX-stack/virtual-tryon-ai#readme" target="_blank">Documentation</a>
+                <a href="#">API Reference</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h3>🔗 Quick Links</h3>
+                <a href="http://localhost:5173" target="_blank">Frontend (Port 5173)</a>
+                <a href="http://localhost:5000/api/health" target="_blank">Backend Health Check</a>
+                <a href="https://github.com/PhantomX-stack/virtual-tryon-ai" target="_blank">View on GitHub</a>
+                <a href="#">Deploy to Hostinger</a>
+            </div>
+            <div class="footer-section">
+                <h3>💡 Resources</h3>
+                <a href="#">Installation Guide</a>
+                <a href="#">Video Tutorials</a>
+                <a href="#">Community Forum</a>
+                <a href="#">Contributing</a>
+            </div>
+            <div class="footer-section">
+                <h3>🌐 Connect</h3>
+                <div class="social-links">
+                    <a href="https://github.com/PhantomX-stack" target="_blank">💻</a>
+                    <a href="#">🐦</a>
+                    <a href="#">📧</a>
+                    <a href="#">💬</a>
+                </div>
+                <p style="margin-top: 20px; color: #aaa; font-size: 14px;">Get in touch for collaboration or support</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 Virtual Try-On AI | Powered by Hadoop Big Data Processing</p>
+            <p style="font-size: 12px; margin-top: 10px;">Built with ❤️ by PhantomX-stack</p>
+        </div>
+    </footer>
+
+    <script>
+        let webcamStream = null;
+        
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('uploaded-img');
+                    const canvas = document.getElementById('preview-canvas');
+                    const video = document.getElementById('webcam');
+                    
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    canvas.style.display = 'none';
+                    video.style.display = 'none';
+                    
+                    alert('✅ Photo uploaded successfully! Click "Analyze Body & Skin Tone" to get started.');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        async function startWebcam() {
+            try {
+                const video = document.getElementById('webcam');
+                const canvas = document.getElementById('preview-canvas');
+                const img = document.getElementById('uploaded-img');
+                
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                webcamStream = stream;
+                video.srcObject = stream;
+                video.play();
+                
+                video.style.display = 'block';
+                canvas.style.display = 'none';
+                img.style.display = 'none';
+                
+                alert('📷 Webcam activated! Position yourself in frame and click "Analyze".');
+            } catch (error) {
+                alert('❌ Could not access webcam. Please upload a photo instead.');
+            }
+        }
+        
+        function analyzeBody() {
+            // Show results section
+            const results = document.getElementById('results');
+            results.classList.add('active');
+            
+            // Simulate AI analysis
+            setTimeout(() => {
+                document.getElementById('height-result').textContent = '5\' 8\" (173 cm)';
+                document.getElementById('body-result').textContent = 'Athletic';
+                document.getElementById('skin-result').textContent = 'Medium (Type III)';
+                document.getElementById('size-result').textContent = 'M / 32';
+                
+                alert('🎯 Analysis complete! Check the results below.');
+                results.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+        
+        function getSuggestions() {
+            const suggestionsDiv = document.getElementById('suggestions');
+            const results = document.getElementById('results');
+            results.classList.add('active');
+            
+            suggestionsDiv.innerHTML = `
+                <h3 style="color: #667eea; margin-bottom: 20px;">✨ AI-Powered Outfit Suggestions</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">👔</div>
+                        <h4 style="color: #667eea;">Formal Wear</h4>
+                        <p style="font-size: 14px; color: #aaa;">Navy blue suit with white shirt</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">👕</div>
+                        <h4 style="color: #667eea;">Casual</h4>
+                        <p style="font-size: 14px; color: #aaa;">Light blue denim with grey tee</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">🏃</div>
+                        <h4 style="color: #667eea;">Athletic</h4>
+                        <p style="font-size: 14px; color: #aaa;">Dark sportswear with neon accents</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">🎨</div>
+                        <h4 style="color: #667eea;">Trendy</h4>
+                        <p style="font-size: 14px; color: #aaa;">Earth tones with layered accessories</p>
+                    </div>
+                </div>
+            `;
+            
+            alert('✨ AI suggestions generated! Scroll down to see your personalized outfit recommendations.');
+            suggestionsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
