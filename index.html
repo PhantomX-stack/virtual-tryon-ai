@@ -3,82 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FashionAI - Virtual Try-On | Shop Latest Trends</title>
+<title>StyleFit - AI Virtual Try-On | Fashion Reimagined</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Arial', sans-serif; background: #f5f5f5; color: #333; }
-.topbar { background: #000; color: #fff; text-align: center; padding: 8px; font-size: 12px; }
-.navbar { background: #fff; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-.logo { font-size: 28px; font-weight: bold; color: #000; }
-.nav-menu { display: flex; gap: 35px; list-style: none; }
-.nav-menu a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
-.nav-menu a:hover { color: #e74c3c; }
-.nav-icons { display: flex; gap: 20px; font-size: 20px; }
-.hero { background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY4YTgwO3N0b3Atb3BhY2l0eToxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmZiMzc0O3N0b3Atb3BhY2l0eToxIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+'); height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; background-size: cover; background-position: center; }
-.hero-content h1 { font-size: 56px; margin-bottom: 20px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-.hero-content p { font-size: 20px; margin-bottom: 30px; }
-.btn-primary { background: #e74c3c; color: #fff; padding: 15px 40px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
-.btn-primary:hover { background: #c0392b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(231,76,60,0.4); }
-.section { padding: 80px 50px; }
-.section-title { text-align: center; font-size: 42px; margin-bottom: 20px; color: #000; }
-.section-subtitle { text-align: center; color: #666; margin-bottom: 60px; font-size: 16px; }
-.try-on-area { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 5px 30px rgba(0,0,0,0.1); }
-.upload-zone { border: 3px dashed #e74c3c; border-radius: 15px; padding: 60px; text-align: center; cursor: pointer; transition: all 0.3s; }
-.upload-zone:hover { background: #fff5f4; border-color: #c0392b; }
-.upload-zone h3 { margin: 20px 0 10px; color: #e74c3c; }
-.preview-zone { background: #000; border-radius: 15px; min-height: 500px; display: flex; align-items: center; justify-content: center; color: #666; position: relative; overflow: hidden; }
-#preview-img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; display: none; }
-#webcam-feed { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; display: none; }
-.action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-.btn-secondary { background: #34495e; color: #fff; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-.btn-secondary:hover { background: #2c3e50; }
-.products { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-.product-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer; }
-.product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
-.product-img { width: 100%; height: 350px; object-fit: cover; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 60px; }
-.product-info { padding: 20px; }
-.product-name { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-.product-price { color: #e74c3c; font-size: 22px; font-weight: bold; }
-.product-rating { color: #f39c12; margin: 8px 0; }
-.try-on-btn { width: 100%; padding: 12px; background: #e74c3c; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: all 0.3s; }
-.try-on-btn:hover { background: #c0392b; }
-.results-panel { background: #fff; border-radius: 15px; padding: 30px; max-width: 1400px; margin: 40px auto; box-shadow: 0 5px 30px rgba(0,0,0,0.1); display: none; }
-.results-panel.active { display: block; }
-.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
-.result-box { background: #f8f8f8; padding: 25px; border-radius: 10px; text-align: center; }
-.result-label { color: #666; font-size: 14px; margin-bottom: 5px; }
-.result-value { font-size: 24px; font-weight: bold; color: #e74c3c; }
-.suggestions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
-.suggestion-card { background: #f8f8f8; padding: 20px; border-radius: 10px; text-align: center; transition: all 0.3s; }
-.suggestion-card:hover { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-.footer { background: #1a1a1a; color: #fff; padding: 60px 50px 30px; }
-.footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-.footer-section h3 { margin-bottom: 20px; color: #e74c3c; }
-.footer-section a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; transition: color 0.3s; }
-.footer-section a:hover { color: #e74c3c; }
-.copyright { text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333; color: #666; }
-@media (max-width: 768px) { .try-on-area, .nav-menu { grid-template-columns: 1fr; } .navbar { flex-direction: column; gap: 20px; } .hero-content h1 { font-size: 36px; } }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#fff;color:#222}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.logo{font-size:28px;font-weight:700;background:linear-gradient(135deg,#d4a574 0%,#8b5a3c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:#d4a574}
+.nav-items{display:flex;gap:40px;list-style:none}
+.nav-items a{text-decoration:none;color:#222;font-weight:500;transition:color 0.3s}
+.nav-items a:hover{color:#d4a574}
+.nav-icons{display:flex;gap:25px;font-size:20px;cursor:pointer}
+.hero{height:700px;background:linear-gradient(135deg,#fff5f0 0%,#ffe8dc 50%,#ffd9c4 100%);display:flex;align-items:center;justify-content:space-between;padding:0 60px;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;right:0;top:0;width:500px;height:600px;background:radial-gradient(circle,rgba(212,165,116,0.3) 0%,transparent 70%);border-radius:50%}
+.hero-content{z-index:2;max-width:600px}
+.hero h1{font-size:72px;font-weight:800;color:#222;margin-bottom:20px;line-height:1.2}
+.hero .highlight{background:linear-gradient(135deg,#d4a574,#8b5a3c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:#555;margin-bottom:30px;line-height:1.8}
+.hero-buttons{display:flex;gap:20px}
+.btn{padding:16px 40px;border:none;border-radius:50px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,#d4a574,#8b5a3c);color:#fff;box-shadow:0 8px 25px rgba(212,165,116,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(212,165,116,0.4)}
+.btn-secondary{background:#f5f5f5;color:#222;border:2px solid #d4a574}
+.btn-secondary:hover{background:#d4a574;color:#fff}
+.hero-image{z-index:1;font-size:120px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)},50%{transform:translateY(-20px)}}
+.features{padding:100px 60px;background:#f9f7f4;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.feature-box{background:#fff;padding:40px;border-radius:20px;box-shadow:0 5px 20px rgba(0,0,0,0.08);text-align:center;transition:all 0.3s}
+.feature-box:hover{transform:translateY(-10px);box-shadow:0 15px 40px rgba(212,165,116,0.2)}
+.feature-icon{font-size:50px;margin-bottom:20px}
+.feature-box h3{font-size:24px;color:#222;margin-bottom:10px}
+.feature-box p{color:#666;line-height:1.6}
+.try-on-section{padding:100px 60px;background:linear-gradient(135deg,#fff5f0,#ffe8dc)}
+.section-title{font-size:48px;font-weight:800;color:#222;text-align:center;margin-bottom:50px}
+.try-on-container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.try-on-left h2{font-size:36px;color:#222;margin-bottom:20px;line-height:1.3}
+.try-on-left p{color:#555;margin-bottom:20px;line-height:1.8;font-size:16px}
+.try-on-features{list-style:none}
+.try-on-features li{padding:12px 0;color:#555;display:flex;align-items:center}
+.try-on-features li::before{content:'✓';color:#d4a574;font-weight:bold;margin-right:15px;font-size:20px}
+.upload-area{border:3px dashed #d4a574;border-radius:20px;padding:60px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(212,165,116,0.05)}
+.upload-area:hover{background:rgba(212,165,116,0.1);border-color:#8b5a3c}
+.upload-area h3{color:#d4a574;margin:20px 0 10px;font-size:20px}
+.products-section{padding:100px 60px;background:#fff}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:30px;margin-top:50px}
+.product-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.08);transition:all 0.3s;cursor:pointer}
+.product-card:hover{transform:translateY(-8px);box-shadow:0 15px 40px rgba(212,165,116,0.2)}
+.product-image{width:100%;height:300px;background:linear-gradient(135deg,#e8d5c4,#d4a574);display:flex;align-items:center;justify-content:center;font-size:80px}
+.product-info{padding:25px}
+.product-name{font-size:18px;font-weight:700;color:#222;margin-bottom:8px}
+.product-price{font-size:24px;color:#d4a574;font-weight:700;margin-bottom:15px}
+.product-rating{color:#f39c12;margin-bottom:15px}
+.try-btn{width:100%;padding:12px;background:linear-gradient(135deg,#d4a574,#8b5a3c);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s}
+.try-btn:hover{transform:scale(1.02)}
+.footer{background:#222;color:#fff;padding:60px;text-align:center;margin-top:80px}
+.footer p{margin-bottom:10px;color:#aaa}
+@media(max-width:768px){.navbar{flex-direction:column;gap:20px;padding:20px}.hero{padding:40px 20px;height:auto}.hero h1{font-size:42px}.features{grid-template-columns:1fr;padding:60px 20px}.try-on-container{grid-template-columns:1fr}.try-on-section{padding:60px 20px}.products-section{padding:60px 20px}}
 </style>
 </head>
 <body>
-<div class="topbar">✨ Free Shipping on Orders Over $50 | Use Code: TRY50 for 10% OFF</div>
-<nav class="navbar"><div class="logo">👗 FashionAI</div><ul class="nav-menu"><li><a href="#">New Arrivals</a></li><li><a href="#try-on">Virtual Try-On</a></li><li><a href="#products">Shop</a></li><li><a href="#support">Support</a></li></ul><div class="nav-icons">🔍 🛍️ 👤</div></nav>
-<div class="hero"><div class="hero-content"><h1>Try Before You Buy</h1><p>Experience the future of online shopping with AI-powered virtual try-on technology</p><a href="#try-on" class="btn-primary">Start Trying On Now</a></div></div>
-<section class="section" id="try-on"><h2 class="section-title">Virtual Try-On Studio</h2><p class="section-subtitle">Upload your photo or use your webcam to see how clothes look on you</p><div class="try-on-area"><div><div class="upload-zone" onclick="document.getElementById('file-input').click()"><div style="font-size:50px">📸</div><h3>Upload Your Photo</h3><p>Drag & drop or click to browse</p><input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleUpload(event)"></div><div class="action-buttons"><button class="btn-secondary" onclick="startWebcam()">🎥 Use Webcam</button><button class="btn-secondary" onclick="analyzeBody()">📏 Analyze Body</button><button class="btn-primary" onclick="getSuggestions()">✨ Get Suggestions</button><button class="btn-secondary" onclick="saveOutfit()">💾 Save Outfit</button></div></div><div class="preview-zone"><div style="font-size:80px">👔</div><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center"><p>Your preview will appear here</p><p style="font-size:12px;margin-top:10px">Upload a photo to get started</p></div><img id="preview-img"><video id="webcam-feed" autoplay></video></div></div></section>
-<div class="results-panel" id="results"><h2 style="margin-bottom:20px">🎯 Your Body Analysis</h2><div class="results-grid"><div class="result-box"><div class="result-label">Height</div><div class="result-value" id="height">--</div></div><div class="result-box"><div class="result-label">Body Type</div><div class="result-value" id="body-type">--</div></div><div class="result-box"><div class="result-label">Skin Tone</div><div class="result-value" id="skin-tone">--</div></div><div class="result-box"><div class="result-label">Recommended Size</div><div class="result-value" id="size">--</div></div></div><div id="outfit-suggestions"></div></div>
-<section class="section" id="products"><h2 class="section-title">Trending This Week</h2><p class="section-subtitle">Shop our most popular items - Try them on virtually!</p><div class="products"></div></section>
-<footer class="footer" id="support"><div class="footer-content"><div class="footer-section"><h3>Customer Service</h3><a href="#">Contact Us</a><a href="#">Track Order</a><a href="#">Returns & Exchanges</a><a href="#">Size Guide</a><a href="#">FAQ</a></div><div class="footer-section"><h3>Shop</h3><a href="#">Women's Clothing</a><a href="#">Men's Clothing</a><a href="#">Accessories</a><a href="#">Sale</a><a href="#">New Arrivals</a></div><div class="footer-section"><h3>About FashionAI</h3><a href="#">Our Story</a><a href="#">Technology</a><a href="#">Careers</a><a href="#">Press</a><a href="https://github.com/PhantomX-stack/virtual-tryon-ai">GitHub</a></div><div class="footer-section"><h3>Connect</h3><p style="color:#aaa;margin-bottom:15px">Follow us on social media</p><div style="display:flex;gap:15px;font-size:24px">📷 🐦 📱 📧</div></div></div><div class="copyright"><p>© 2026 FashionAI | Powered by Hadoop Big Data Processing</p><p style="font-size:12px;margin-top:10px">Backend: localhost:5000 | Frontend: localhost:5173</p></div></footer>
+<nav class="navbar">
+<div class="logo">✨ StyleFit</div>
+<ul class="nav-items">
+<li><a href="#home">Home</a></li>
+<li><a href="#try-on">Try-On</a></li>
+<li><a href="#products">Shop</a></li>
+<li><a href="#features">About</a></li>
+</ul>
+<div class="nav-icons">🔍 👜 👤</div>
+</nav>
+
+<section class="hero" id="home">
+<div class="hero-content">
+<h1>Discover Your <span class="highlight">Perfect Style</span></h1>
+<p>Try on thousands of outfits with AI-powered virtual try-on. Find your perfect fit without leaving home.</p>
+<div class="hero-buttons">
+<a href="#try-on" class="btn btn-primary">Start Virtual Try-On</a>
+<a href="#products" class="btn btn-secondary">Explore Collection</a>
+</div>
+</div>
+<div class="hero-image">👗</div>
+</section>
+
+<section class="features" id="features">
+<div class="feature-box">
+<div class="feature-icon">🎯</div>
+<h3>AI-Powered</h3>
+<p>Advanced AI analyzes your body measurements and preferences instantly</p>
+</div>
+<div class="feature-box">
+<div class="feature-icon">⚡</div>
+<h3>Real-Time</h3>
+<p>See how clothes look on you in real-time with accurate rendering</p>
+</div>
+<div class="feature-box">
+<div class="feature-icon">💡</div>
+<h3>Smart Suggestions</h3>
+<p>Get personalized outfit recommendations based on your style</p>
+</div>
+</section>
+
+<section class="try-on-section" id="try-on">
+<h2 class="section-title">Try Before You Buy</h2>
+<div class="try-on-container">
+<div class="try-on-left">
+<h2>Experience Fashion Like Never Before</h2>
+<p>Our cutting-edge AI technology lets you virtually try on any item from our collection. Upload your photo or use your webcam to get started.</p>
+<ul class="try-on-features">
+<li>Upload your photo or use webcam</li>
+<li>AI analyzes your body shape</li>
+<li>See real-time try-on preview</li>
+<li>Get personalized suggestions</li>
+<li>Save your favorite outfits</li>
+</ul>
+</div>
+<div>
+<div class="upload-area" onclick="document.getElementById('file').click()">
+<div style="font-size:60px;margin-bottom:10px">📸</div>
+<h3>Upload Photo</h3>
+<p>or drag & drop</p>
+<input type="file" id="file" accept="image/*" style="display:none" onchange="handleUpload(event)">
+</div>
+<div style="margin-top:20px;text-align:center">
+<button class="btn btn-primary" onclick="startWebcam()" style="width:100%">🎥 Use Webcam</button>
+</div>
+</div>
+</div>
+</section>
+
+<section class="products-section" id="products">
+<div style="text-align:center;margin-bottom:30px">
+<h2 class="section-title">Trending This Week</h2>
+<p style="color:#666;font-size:16px">Discover our most loved pieces</p>
+</div>
+<div class="products-grid" id="products-grid"></div>
+</section>
+
+<footer class="footer">
+<p>© 2026 StyleFit | Powered by Hadoop Big Data & AI</p>
+<p>Backend: localhost:5000 | Frontend: localhost:5173</p>
+</footer>
+
 <script>
-const products=[{name:'Classic Denim Jacket',price:'$89.99',rating:'⭐⭐⭐⭐⭐',icon:'🧥'},{name:'Elegant Summer Dress',price:'$64.99',rating:'⭐⭐⭐⭐⭐',icon:'👗'},{name:'Casual White Tee',price:'$24.99',rating:'⭐⭐⭐⭐',icon:'👕'},{name:'Slim Fit Chinos',price:'$54.99',rating:'⭐⭐⭐⭐',icon:'👖'},{name:'Leather Biker Jacket',price:'$149.99',rating:'⭐⭐⭐⭐⭐',icon:'🧥'},{name:'Floral Maxi Dress',price:'$79.99',rating:'⭐⭐⭐⭐⭐',icon:'👗'}];
-const container=document.querySelector('.products');
-products.forEach(p=>{const card=document.createElement('div');card.className='product-card';card.innerHTML=`<div class="product-img">${p.icon}</div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-rating">${p.rating}</div><div class="product-price">${p.price}</div><button class="try-on-btn" onclick="tryOnProduct('${p.name}')">Try On Virtually</button></div>`;container.appendChild(card);});
-function handleUpload(e){const file=e.target.files[0];if(file){const reader=new FileReader();reader.onload=function(ev){document.getElementById('preview-img').src=ev.target.result;document.getElementById('preview-img').style.display='block';document.querySelector('.preview-zone>div').style.display='none';alert('✅ Photo uploaded! Click "Analyze Body" to get your measurements.');};reader.readAsDataURL(file);}}
-async function startWebcam(){try{const stream=await navigator.mediaDevices.getUserMedia({video:true});document.getElementById('webcam-feed').srcObject=stream;document.getElementById('webcam-feed').style.display='block';document.querySelector('.preview-zone>div').style.display='none';alert('🎥 Webcam activated! Position yourself and click "Analyze Body".');}catch(e){alert('❌ Camera access denied. Please upload a photo instead.');}}
-function analyzeBody(){document.getElementById('results').classList.add('active');setTimeout(()=>{document.getElementById('height').textContent="5'8\"";
-document.getElementById('body-type').textContent='Athletic';document.getElementById('skin-tone').textContent='Medium';document.getElementById('size').textContent='M';alert('🎯 Analysis complete! Scroll down to see your results.');document.getElementById('results').scrollIntoView({behavior:'smooth'});},1500);}
-function getSuggestions(){const div=document.getElementById('outfit-suggestions');div.innerHTML='<h3 style="margin:30px 0 20px;color:#e74c3c">✨ Personalized Outfit Recommendations</h3><div class="suggestions-grid"><div class="suggestion-card"><div style="font-size:50px;margin-bottom:10px">👔</div><h4>Business Casual</h4><p>Navy blazer with chinos</p></div><div class="suggestion-card"><div style="font-size:50px;margin-bottom:10px">👕</div><h4>Weekend Casual</h4><p>Denim jacket with tee</p></div><div class="suggestion-card"><div style="font-size:50px;margin-bottom:10px">👗</div><h4>Date Night</h4><p>Elegant dress with heels</p></div><div class="suggestion-card"><div style="font-size:50px;margin-bottom:10px">🎽</div><h4>Athletic</h4><p>Performance wear set</p></div></div>';alert('✨ AI recommendations ready! Check them out below.');div.scrollIntoView({behavior:'smooth'});}
-function tryOnProduct(name){alert(`👔 Trying on: ${name}\n\nUpload your photo first to see how it looks on you!`);document.getElementById('try-on').scrollIntoView({behavior:'smooth'});}
-function saveOutfit(){alert('💾 Outfit saved to your favorites!\n\nYou can view your saved outfits in your profile.');}
+const products=[
+{name:'Luxury Blazer',price:'$189',rating:'⭐⭐⭐⭐⭐',icon:'🧥'},
+{name:'Summer Dress',price:'$89',rating:'⭐⭐⭐⭐⭐',icon:'👗'},
+{name:'Designer Jeans',price:'$129',rating:'⭐⭐⭐⭐',icon:'👖'},
+{name:'Classic Tee',price:'$49',rating:'⭐⭐⭐⭐',icon:'👕'},
+{name:'Silk Blouse',price:'$159',rating:'⭐⭐⭐⭐⭐',icon:'👚'},
+{name:'Chic Blazer',price:'$179',rating:'⭐⭐⭐⭐⭐',icon:'🧥'}
+];
+const grid=document.getElementById('products-grid');
+products.forEach(p=>{
+const card=document.createElement('div');
+card.className='product-card';
+card.innerHTML=`<div class="product-image">${p.icon}</div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-rating">${p.rating}</div><div class="product-price">${p.price}</div><button class="try-btn" onclick="alert('✨ Upload your photo to try this on!')">Try On Now</button></div>`;
+grid.appendChild(card);
+});
+function handleUpload(e){const file=e.target.files[0];if(file)alert('✅ Photo uploaded! Click any product to try it on');}
+function startWebcam(){alert('🎥 Webcam feature active! Click any product to try it on');}
 </script>
 </body>
 </html>
