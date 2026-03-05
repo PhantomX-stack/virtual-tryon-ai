@@ -4,6 +4,17 @@ AI-powered **virtual try-on** web application with real-time garment overlay, pe
 
 **Perfect for beginners** - Easy to install and run even on your first GitHub clone.
 
+## 🚀 Try It Live
+
+**[CLICK HERE TO VIEW THE LIVE DEMO WEBSITE](https://redesigned-acorn-6j5g9rwp665356jr.github.dev:8000/index.html)**
+
+The website will load showing:
+- Real-time virtual try-on interface
+- AI Features showcase
+- Hadoop Big Data Processing info
+- System status indicators
+- Step-by-step installation guide
+
 ---
 
 ## ⚡ Features
