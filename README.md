@@ -6,7 +6,7 @@ AI-powered **virtual try-on** web application with real-time garment overlay, pe
 
 ## 🚀 Try It Live
 
-**[CLICK HERE TO VIEW THE LIVE DEMO WEBSITE](https://redesigned-acorn-6j5g9rwp665356jr.github.dev:8000/index.html)**
+**[CLICK HERE TO VIEW THE LIVE DEMO WEBSITE](https://redesigned-acorn-6j5g9rwp665356jr-8000.app.github.dev/)**
 
 The website will load showing:
 - Real-time virtual try-on interface
