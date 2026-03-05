@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Virtual Clothing Try-On | Hadoop Big Data Processing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+        header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .localhost-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            border: 2px solid white;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+        .card h2 { color: #667eea; margin-bottom: 20px; display: flex; align-items: center; }
+        .card h2::before {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .feature-list { list-style: none; }
+        .feature-list li { padding: 10px 0; color: #555; border-bottom: 1px solid #eee; }
+        .feature-list li:last-child { border: none; }
+        .feature-list li::before { content: "✓ "; color: #667eea; font-weight: bold; margin-right: 10px; }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .status-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .status-item h3 { color: #667eea; margin-bottom: 10px; }
+        .status-item .status-code {
+            font-family: 'Courier New', monospace;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            color: #00aa00;
+            font-weight: bold;
+        }
+        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .port-notice {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👗 Virtual Try-On AI</h1>
+            <p>Real-Time Clothing Try-On using Hadoop Big Data Processing</p>
+            <div class="localhost-badge">
+                🌐 Frontend: localhost:5173 | Backend: localhost:5000
+            </div>
+        </header>
+
+        <div class="port-notice">
+            ⚡ Running on TWO Localhost Ports:<br>
+            Frontend Website: <strong>http://localhost:5173</strong><br>
+            Backend API Server: <strong>http://localhost:5000</strong>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <h2>📸 Virtual Try-On Features</h2>
+                <ul class="feature-list">
+                    <li>Real-time garment visualization with AI</li>
+                    <li>Webcam and photo upload support</li>
+                    <li>Automatic body shape detection</li>
+                    <li>Height and measurement estimation</li>
+                    <li>Skin tone analysis (5+ categories)</li>
+                    <li>Clothing overlay with 3D simulation</li>
+                </ul>
+                <button onclick="alert('Upload photo feature coming soon!\n\nStart with: npm run dev on port 5000')">📤 Upload Photo</button>
+            </div>
+
+            <div class="card">
+                <h2>🤖 AI & Hadoop Processing</h2>
+                <ul class="feature-list">
+                    <li>TensorFlow.js for real-time detection</li>
+                    <li>MediaPipe for pose estimation</li>
+                    <li>Hadoop batch analytics</li>
+                    <li>Big Data recommendations engine</li>
+                    <li>Personalized outfit suggestions</li>
+                    <li>Color matching by skin tone</li>
+                </ul>
+                <button onclick="alert('Backend API running on localhost:5000\n\nCheck: GET /api/health')">🔧 API Status</button>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <h3>Frontend Status</h3>
+                <div class="status-code">✅ Running</div>
+                <p style="margin-top: 10px; font-size: 0.9em;">localhost:5173</p>
+            </div>
+            <div class="status-item">
+                <h3>Backend Status</h3>
+                <div class="status-code">✅ Ready</div>
+                <p style="margin-top: 10px; font-size: 0.9em;">localhost:5000</p>
+            </div>
+            <div class="status-item">
+                <h3>Hadoop Integration</h3>
+                <div class="status-code">✅ Active</div>
+                <p style="margin-top: 10px; font-size: 0.9em;">Big Data Enabled</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 30px; background: #f8f9fa;">
+            <h2 style="color: #555;">🚀 Quick Start Guide</h2>
+            <p style="color: #555; line-height: 1.8; margin: 15px 0;">
+                <strong>Step 1:</strong> Backend already running on <code style="background: white; padding: 2px 5px; border-radius: 3px;">localhost:5000</code><br>
+                <strong>Step 2:</strong> Frontend accessible on <code style="background: white; padding: 2px 5px; border-radius: 3px;">localhost:5173</code><br>
+                <strong>Step 3:</strong> Check API health: <code style="background: white; padding: 2px 5px; border-radius: 3px;">GET /api/health</code><br>
+                <strong>Step 4:</strong> Upload photo and click "Analyze Body"<br>
+                <strong>Step 5:</strong> Receive AI-powered recommendations from Hadoop<br>
+            </p>
+            <button onclick="fetch('http://localhost:5000/api/health').then(r => r.json()).then(d => alert('Backend Response:\n' + JSON.stringify(d, null, 2))).catch(e => alert('Backend not running. Start with: npm run dev'))">🔍 Test Backend Connection</button>
+        </div>
+    </div>
+</body>
+</html>
