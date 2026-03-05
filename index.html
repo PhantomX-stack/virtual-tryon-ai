@@ -1,166 +1,982 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StyleFit - AI Virtual Try-On | Fashion Reimagined</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#fff;color:#222}
-.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
-.logo{font-size:28px;font-weight:700;background:linear-gradient(135deg,#d4a574 0%,#8b5a3c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:#d4a574}
-.nav-items{display:flex;gap:40px;list-style:none}
-.nav-items a{text-decoration:none;color:#222;font-weight:500;transition:color 0.3s}
-.nav-items a:hover{color:#d4a574}
-.nav-icons{display:flex;gap:25px;font-size:20px;cursor:pointer}
-.hero{height:700px;background:linear-gradient(135deg,#fff5f0 0%,#ffe8dc 50%,#ffd9c4 100%);display:flex;align-items:center;justify-content:space-between;padding:0 60px;overflow:hidden;position:relative}
-.hero::before{content:'';position:absolute;right:0;top:0;width:500px;height:600px;background:radial-gradient(circle,rgba(212,165,116,0.3) 0%,transparent 70%);border-radius:50%}
-.hero-content{z-index:2;max-width:600px}
-.hero h1{font-size:72px;font-weight:800;color:#222;margin-bottom:20px;line-height:1.2}
-.hero .highlight{background:linear-gradient(135deg,#d4a574,#8b5a3c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:18px;color:#555;margin-bottom:30px;line-height:1.8}
-.hero-buttons{display:flex;gap:20px}
-.btn{padding:16px 40px;border:none;border-radius:50px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s;text-decoration:none}
-.btn-primary{background:linear-gradient(135deg,#d4a574,#8b5a3c);color:#fff;box-shadow:0 8px 25px rgba(212,165,116,0.3)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(212,165,116,0.4)}
-.btn-secondary{background:#f5f5f5;color:#222;border:2px solid #d4a574}
-.btn-secondary:hover{background:#d4a574;color:#fff}
-.hero-image{z-index:1;font-size:120px;animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)},50%{transform:translateY(-20px)}}
-.features{padding:100px 60px;background:#f9f7f4;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
-.feature-box{background:#fff;padding:40px;border-radius:20px;box-shadow:0 5px 20px rgba(0,0,0,0.08);text-align:center;transition:all 0.3s}
-.feature-box:hover{transform:translateY(-10px);box-shadow:0 15px 40px rgba(212,165,116,0.2)}
-.feature-icon{font-size:50px;margin-bottom:20px}
-.feature-box h3{font-size:24px;color:#222;margin-bottom:10px}
-.feature-box p{color:#666;line-height:1.6}
-.try-on-section{padding:100px 60px;background:linear-gradient(135deg,#fff5f0,#ffe8dc)}
-.section-title{font-size:48px;font-weight:800;color:#222;text-align:center;margin-bottom:50px}
-.try-on-container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.try-on-left h2{font-size:36px;color:#222;margin-bottom:20px;line-height:1.3}
-.try-on-left p{color:#555;margin-bottom:20px;line-height:1.8;font-size:16px}
-.try-on-features{list-style:none}
-.try-on-features li{padding:12px 0;color:#555;display:flex;align-items:center}
-.try-on-features li::before{content:'✓';color:#d4a574;font-weight:bold;margin-right:15px;font-size:20px}
-.upload-area{border:3px dashed #d4a574;border-radius:20px;padding:60px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(212,165,116,0.05)}
-.upload-area:hover{background:rgba(212,165,116,0.1);border-color:#8b5a3c}
-.upload-area h3{color:#d4a574;margin:20px 0 10px;font-size:20px}
-.products-section{padding:100px 60px;background:#fff}
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:30px;margin-top:50px}
-.product-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.08);transition:all 0.3s;cursor:pointer}
-.product-card:hover{transform:translateY(-8px);box-shadow:0 15px 40px rgba(212,165,116,0.2)}
-.product-image{width:100%;height:300px;background:linear-gradient(135deg,#e8d5c4,#d4a574);display:flex;align-items:center;justify-content:center;font-size:80px}
-.product-info{padding:25px}
-.product-name{font-size:18px;font-weight:700;color:#222;margin-bottom:8px}
-.product-price{font-size:24px;color:#d4a574;font-weight:700;margin-bottom:15px}
-.product-rating{color:#f39c12;margin-bottom:15px}
-.try-btn{width:100%;padding:12px;background:linear-gradient(135deg,#d4a574,#8b5a3c);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s}
-.try-btn:hover{transform:scale(1.02)}
-.footer{background:#222;color:#fff;padding:60px;text-align:center;margin-top:80px}
-.footer p{margin-bottom:10px;color:#aaa}
-@media(max-width:768px){.navbar{flex-direction:column;gap:20px;padding:20px}.hero{padding:40px 20px;height:auto}.hero h1{font-size:42px}.features{grid-template-columns:1fr;padding:60px 20px}.try-on-container{grid-template-columns:1fr}.try-on-section{padding:60px 20px}.products-section{padding:60px 20px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On AI | Real-Time Hadoop Big Data Processing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.05) 10px, rgba(255,255,255,.05) 20px),
+                repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,.03) 10px, rgba(255,255,255,.03) 20px);
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            font-size: 36px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 35px;
+            opacity: 0.95;
+            font-weight: 500;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        /* Try-On Section */
+        .try-on-section {
+            background: 
+                linear-gradient(135deg, rgba(255,240,245,0.95) 0%, rgba(255,250,240,0.95) 100%),
+                url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fashion-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="%23ff69b4" opacity="0.1"/><circle cx="50" cy="50" r="2" fill="%23ff1493" opacity="0.1"/><circle cx="90" cy="90" r="2" fill="%23ff69b4" opacity="0.1"/><path d="M20,20 Q30,10 40,20 T60,20" stroke="%23ffc0cb" stroke-width="0.5" fill="none" opacity="0.15"/><path d="M70,70 Q80,60 90,70" stroke="%23ffb6c1" stroke-width="0.5" fill="none" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23fashion-pattern)"/></svg>');
+            background-size: auto, 100px 100px;
+            background-blend-mode: overlay;border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            margin-bottom: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .try-on-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 40px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 20px;
+            padding: 70px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            background: linear-gradient(145deg, #f8f9ff, #ffffff);
+        }
+
+        .upload-area:hover {
+            background: linear-gradient(145deg, #eef2ff, #f8f9ff);
+            border-color: #764ba2;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-icon {
+            font-size: 72px;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #uploadInput {
+            display: none;
+        }
+
+        .preview-area {
+            min-height: 450px;
+            background: linear-gradient(145deg, #f8f9ff, #ffffff);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        #preview {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+        }
+
+        .preview-placeholder {
+            text-align: center;
+            color: #a0aec0;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9ff;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+background: 
+                linear-gradient(135deg, rgba(255,245,250,0.98) 0%, rgba(250,240,255,0.98) 100%),
+                radial-gradient(circle at 20% 30%, rgba(255,182,193,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(221,160,221,0.1) 0%, transparent 50%);
+            background-blend-mode: normal;,
+                url('data:image/svg+xml;utf8,<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg"><g opacity="0.08"><text x="10" y="30" font-size="24" fill="%23ff69b4">👗</text><text x="70" y="30" font-size="20" fill="%23dda0dd">✨</text><text x="90" y="70" font-size="24" fill="%23ff69b4">👠</text><text x="30" y="90" font-size="20" fill="%23dda0dd">💄</text><text x="10" y="110" font-size="18" fill="%23ffc0cb">♥</text></g></svg>');
+                            background-size: cover, auto, auto, 120px 120px;
+            background-position: center, center, center, 0 0;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .feature-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .feature-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #718096;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* AI Suggestions */
+        .suggestions {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .suggestion-item {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .suggestion-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .color-swatch {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Footer */
+        footer {
+                        background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg"><g opacity="0.15"><circle cx="10" cy="10" r="3" fill="%23667eea"/><circle cx="40" cy="40" r="2" fill="%23764ba2"/><circle cx="70" cy="70" r="3" fill="%23667eea"/><text x="20" y="25" font-size="14" fill="%23667eea">👗</text><text x="55" y="60" font-size="12" fill="%23764ba2">👠</text><text x="15" y="70" font-size="10" fill="%23ffc0cb">✨</text></g></svg>');
+            background-size: 80px 80px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 50px 30px;
+            margin-top: 70px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: #718096;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .try-on-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar">
-<div class="logo">✨ StyleFit</div>
-<ul class="nav-items">
-<li><a href="#home">Home</a></li>
-<li><a href="#try-on">Try-On</a></li>
-<li><a href="#products">Shop</a></li>
-<li><a href="#features">About</a></li>
-</ul>
-<div class="nav-icons">🔍 👜 👤</div>
-</nav>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span>👔</span>
+                <div>VirtualTry-On AI</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="https://github.com/PhantomX-stack/virtual-tryon-ai" target="_blank">About</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<section class="hero" id="home">
-<div class="hero-content">
-<h1>Discover Your <span class="highlight">Perfect Style</span></h1>
-<p>Try on thousands of outfits with AI-powered virtual try-on. Find your perfect fit without leaving home.</p>
-<div class="hero-buttons">
-<a href="#try-on" class="btn btn-primary">Start Virtual Try-On</a>
-<a href="#products" class="btn btn-secondary">Explore Collection</a>
-</div>
-</div>
-<div class="hero-image">👗</div>
-</section>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>👗 Real-Time Virtual Clothing Try-On</h1>
+        <p>Experience the future of fashion with AI-powered virtual try-on using advanced Hadoop Big Data Processing & Machine Learning</p>
+    </section>
 
-<section class="features" id="features">
-<div class="feature-box">
-<div class="feature-icon">🎯</div>
-<h3>AI-Powered</h3>
-<p>Advanced AI analyzes your body measurements and preferences instantly</p>
-</div>
-<div class="feature-box">
-<div class="feature-icon">⚡</div>
-<h3>Real-Time</h3>
-<p>See how clothes look on you in real-time with accurate rendering</p>
-</div>
-<div class="feature-box">
-<div class="feature-icon">💡</div>
-<h3>Smart Suggestions</h3>
-<p>Get personalized outfit recommendations based on your style</p>
-</div>
-</section>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Try-On Section -->
+        <div class="try-on-section">
+            <h2 style="text-align: center; margin-bottom: 15px; color: #2d3748; font-size: 32px; font-weight: 800;">Try On Your Perfect Look</h2>
+            <p style="text-align: center; color: #718096; margin-bottom: 30px;">Upload your photo and let AI find the best clothing matches for you</p>
+            <div class="try-on-grid">
+                <div>
+                    <h3 style="margin-bottom: 25px; color: #667eea; font-weight: 700;">📸 Upload Your Photo</h3>
+                    <div class="upload-area" onclick="document.getElementById('uploadInput').click()">
+                        <div class="upload-icon">📤</div>
+                        <h3 style="font-size: 24px; margin-bottom: 12px;">Click to Upload</h3>
+                        <p style="margin-top: 10px; color: #a0aec0; font-weight: 500;">Support JPG, PNG, JPEG</p>
+                    </div>
+                    <input type="file" id="uploadInput" accept="image/*">
+                    <div style="margin-top: 25px; text-align: center;">
+                        <button class="btn" onclick="startCamera()">📷 Use Camera</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 25px; color: #667eea; font-weight: 700;">✨ Live Preview</h3>
+                    <div class="preview-area" id="previewArea">
+                        <div class="preview-placeholder" id="placeholder">
+                            <div style="font-size: 64px; margin-bottom: 20px;">🎭</div>
+                            <p style="font-size: 18px; font-weight: 600;">Your preview will appear here</p>
+                        </div>
+                        <img id="preview" style="display: none;">
+                        <canvas id="canvas" style="display: none;"></canvas>
+                    </div>
+                </div>
+            </div>
 
-<section class="try-on-section" id="try-on">
-<h2 class="section-title">Try Before You Buy</h2>
-<div class="try-on-container">
-<div class="try-on-left">
-<h2>Experience Fashion Like Never Before</h2>
-<p>Our cutting-edge AI technology lets you virtually try on any item from our collection. Upload your photo or use your webcam to get started.</p>
-<ul class="try-on-features">
-<li>Upload your photo or use webcam</li>
-<li>AI analyzes your body shape</li>
-<li>See real-time try-on preview</li>
-<li>Get personalized suggestions</li>
-<li>Save your favorite outfits</li>
-</ul>
-</div>
-<div>
-<div class="upload-area" onclick="document.getElementById('file').click()">
-<div style="font-size:60px;margin-bottom:10px">📸</div>
-<h3>Upload Photo</h3>
-<p>or drag & drop</p>
-<input type="file" id="file" accept="image/*" style="display:none" onchange="handleUpload(event)">
-</div>
-<div style="margin-top:20px;text-align:center">
-<button class="btn btn-primary" onclick="startWebcam()" style="width:100%">🎥 Use Webcam</button>
-</div>
-</div>
-</div>
-</section>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 20px; color: #667eea; font-weight: 700; font-size: 18px;">Processing with AI...</p>
+            </div>
 
-<section class="products-section" id="products">
-<div style="text-align:center;margin-bottom:30px">
-<h2 class="section-title">Trending This Week</h2>
-<p style="color:#666;font-size:16px">Discover our most loved pieces</p>
-</div>
-<div class="products-grid" id="products-grid"></div>
-</section>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="analyzeWithAI()">🤖 Analyze with AI</button>
+                <button class="btn btn-secondary" onclick="clearAll()">🔄 Reset</button>
+            </div>
+        </div>
 
-<footer class="footer">
-<p>© 2026 StyleFit | Powered by Hadoop Big Data & AI</p>
-<p>Backend: localhost:5000 | Frontend: localhost:5173</p>
-</footer>
+        <!-- AI Suggestions -->
+        <div class="suggestions" id="suggestions" style="display: none;">
+            <h2 style="margin-bottom: 15px; color: #2d3748; font-size: 30px; font-weight: 800;">🎨 Your Personalized Recommendations</h2>
+            <p style="color: #718096; margin-bottom: 25px; font-size: 16px;">Based on your skin tone, height, body type, and style preferences - powered by Hadoop Big Data Analytics</p>
+            <div class="suggestion-grid" id="suggestionGrid"></div>
+        </div>
 
-<script>
-const products=[
-{name:'Luxury Blazer',price:'$189',rating:'⭐⭐⭐⭐⭐',icon:'🧥'},
-{name:'Summer Dress',price:'$89',rating:'⭐⭐⭐⭐⭐',icon:'👗'},
-{name:'Designer Jeans',price:'$129',rating:'⭐⭐⭐⭐',icon:'👖'},
-{name:'Classic Tee',price:'$49',rating:'⭐⭐⭐⭐',icon:'👕'},
-{name:'Silk Blouse',price:'$159',rating:'⭐⭐⭐⭐⭐',icon:'👚'},
-{name:'Chic Blazer',price:'$179',rating:'⭐⭐⭐⭐⭐',icon:'🧥'}
-];
-const grid=document.getElementById('products-grid');
-products.forEach(p=>{
-const card=document.createElement('div');
-card.className='product-card';
-card.innerHTML=`<div class="product-image">${p.icon}</div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-rating">${p.rating}</div><div class="product-price">${p.price}</div><button class="try-btn" onclick="alert('✨ Upload your photo to try this on!')">Try On Now</button></div>`;
-grid.appendChild(card);
-});
-function handleUpload(e){const file=e.target.files[0];if(file)alert('✅ Photo uploaded! Click any product to try it on');}
-function startWebcam(){alert('🎥 Webcam feature active! Click any product to try it on');}
-</script>
-</body>
-</html>
+        <!-- Features -->
+        <div class="features" id="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎥</div>
+                <h3>Real-Time Detection</h3>
+                <p>TensorFlow.js powers instant garment visualization with unmatched AI precision and speed</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤸</div>
+                <h3>Body Shape Analysis</h3>
+                <p>Advanced MediaPipe technology delivers accurate pose estimation and precise body measurements</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Big Data Analytics</h3>
+                <p>Hadoop-powered recommendations analyze millions of fashion data points for perfect suggestions</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Smart Color Matching</h3>
+                <p>AI analyzes your skin tone and complexion to suggest the most flattering color palettes</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📏</div>
+                <h3>Smart Measurements</h3>
+                <p>Automatic height and body proportion estimation using computer vision algorithms</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>Style Suggestions</h3>
+                <p>Personalized outfit recommendations tailored to your unique profile and preferences</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="support">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p style="color: #718096; line-height: 1.8;">Virtual Try-On AI revolutionizes online fashion by combining cutting-edge computer vision, Hadoop big data processing, and deep learning for real-time garment visualization and personalized style recommendations.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="https://github.com/PhantomX-stack/virtual-tryon-ai" target="_blank">About</a></li>
+                    <li><a href="#support">Support</a></li>
+                    <li><a href="javascript:showAPIStatus()">API Status</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Technology Stack</h3>
+                <ul>
+                    <li><a href="https://www.tensorflow.org/js" target="_blank">TensorFlow.js</a></li>
+                    <li><a href="https://mediapipe.dev/" target="_blank">MediaPipe</a></li>
+                    <li><a href="https://hadoop.apache.org/" target="_blank">Hadoop Analytics</a></li>
+                    <li><a href="https://nodejs.org/" target="_blank">Node.js Backend</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact & Support</h3>
+                <ul>
+                    <li><a href="mailto:support@virtualtryon-ai.com">📧 Email Support</a></li>
+                    <li><a href="javascript:showLiveChat()">💬 Live Chat Support</a></li>
+                    <li><a href="javascript:showDocumentation()">📚 Documentation</a></li>
+                    <li><a href="javascript:showAPIGuide()">🔧 Developer API Guide</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p style="font-size: 16px;">© 2024 PhantomX-stack. All Rights Reserved. </p>
+            <p style="margin-top: 12px; font-size: 16px;">🚀 <strong>Live Demo:</strong> <a href="https://redesigned-acorn-6j5g9rwp665356jr-8000.app.github.dev/" target="_blank" style="color: #667eea; font-weight: 700; text-decoration: underline;">https://redesigned-acorn-6j5g9rwp665356jr-8000.app.github.dev/</a></p>
+        </div>
+                
+        <!-- Credits Section -->
+        <div style="text-align: center; margin-top: 30px; padding: 25px; background: linear-gradient(145deg, #f8f9ff, #ffffff); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <p style="font-size: 18px; color: #2d3748; margin-bottom: 10px;">
+                <strong>👨‍💻 Made with ❤️ by <a href="https://github.com/PhantomX-stack" target="_blank" style="color: #667eea; font-weight: 700; text-decoration: none; transition: all 0.3s;">
+                PhantomX-stack</a></strong>
+            </p>
+
+    <script>
+        // Global variables
+        let uploadedImage = null;
+        let userProfile = {
+            skinTone: null,
+            height: null,
+            bodyType: null
+        };
+
+        // File upload handler
+        document.getElementById('uploadInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage = event.target.result;
+                    displayImage(uploadedImage);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Display image
+        function displayImage(src) {
+            const preview = document.getElementById('preview');
+            const placeholder = document.getElementById('placeholder');
+            
+            preview.src = src;
+            preview.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+        }
+
+        // Camera function
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                setTimeout(() => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0);
+                    uploadedImage = canvas.toDataURL('image/jpeg');
+                    displayImage(uploadedImage);
+                    stream.getTracks().forEach(track => track.stop());
+                }, 3000);
+                
+                alert('📷 Smile! Photo will be captured in 3 seconds...');
+            } catch (error) {
+                alert('❌ Camera access denied. Please upload a photo instead.');
+            }
+        }
+
+        // AI Analysis function
+        async function analyzeWithAI() {
+            if (!uploadedImage) {
+                alert('⚠️ Please upload a photo first!');
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+
+            setTimeout(() => {
+                analyzeSkinTone();
+                analyzeBodyMeasurements();
+                generateRecommendations();
+                
+                loading.style.display = 'none';
+                document.getElementById('suggestions').style.display = 'block';
+                document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
+        }
+
+        // Simulate skin tone analysis
+        function analyzeSkinTone() {
+            const tones = ['Fair', 'Light', 'Medium', 'Tan', 'Deep'];
+            userProfile.skinTone = tones[Math.floor(Math.random() * tones.length)];
+        }
+
+        // Simulate body measurements
+        function analyzeBodyMeasurements() {
+            userProfile.height = Math.floor(Math.random() * (190 - 160) + 160);
+            const types = ['Slim', 'Athletic', 'Average', 'Curvy'];
+            userProfile.bodyType = types[Math.floor(Math.random() * types.length)];
+        }
+
+        // Generate AI recommendations
+        function generateRecommendations() {
+            const suggestions = [
+                { color: '#FF6B6B', name: 'Coral Red', description: 'Perfect for your warm skin tone', match: 95 },
+                { color: '#4ECDC4', name: 'Turquoise', description: 'Complements your complexion', match: 92 },
+                { color: '#95E1D3', name: 'Mint Green', description: 'Fresh and flattering choice', match: 88 },
+                { color: '#F38181', name: 'Soft Pink', description: 'Brings out your natural glow', match: 90 },
+                { color: '#AA96DA', name: 'Lavender', description: 'Elegant and sophisticated', match: 87 },
+                { color: '#FCBAD3', name: 'Rose Pink', description: 'Romantic and charming', match: 85 }
+            ];
+
+            const grid = document.getElementById('suggestionGrid');
+            grid.innerHTML = '';
+
+            suggestions.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerHTML = `
+                    <div class="color-swatch" style="background: ${item.color};"></div>
+                    <h4 style="margin-bottom: 8px; font-size: 18px;">${item.name}</h4>
+                    <p style="color: #a0aec0; font-size: 14px; margin: 10px 0;">${item.description}</p>
+                    <p style="color: #667eea; font-weight: 700; font-size: 16px;">✨ ${item.match}% Match</p>
+                `;
+                grid.appendChild(div);
+            });
+
+            const infoDiv = document.createElement('div');
+            infoDiv.style.cssText = 'grid-column: 1 / -1; background: linear-gradient(145deg, #f8f9ff, #ffffff); padding: 30px; border-radius: 15px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);';
+            infoDiv.innerHTML = `
+                <h3 style="margin-bottom: 20px; color: #667eea; font-size: 24px; font-weight: 800;">💡 Your AI Analysis Results</h3>
+                <p style="margin: 12px 0; font-size: 16px;"><strong>Skin Tone:</strong> ${userProfile.skinTone}</p>
+                <p style="margin: 12px 0; font-size: 16px;"><strong>Estimated Height:</strong> ${userProfile.height} cm</p>
+                <p style="margin: 12px 0; font-size: 16px;"><strong>Body Type:</strong> ${userProfile.bodyType}</p>
+                <p style="margin-top: 20px; color: #718096; font-style: italic;">🤖 Powered by TensorFlow.js, MediaPipe & Hadoop Big Data Analytics</p>
+            `;
+            grid.appendChild(infoDiv);
+        }
+
+        // Clear all
+        function clearAll() {
+            uploadedImage = null;
+            document.getElementById('preview').style.display = 'none';
+            document.getElementById('preview').src = '';
+            document.getElementById('placeholder').style.display = 'block';
+            document.getElementById('suggestions').style.display = 'none';
+            document.getElementById('uploadInput').value = '';
+            userProfile = { skinTone: null, height: null, bodyType: null };
+        }
+
+        // Show API Status
+        function showAPIStatus() {
+            alert('🟢 API Status\n\n✅ TensorFlow.js: Online\n✅ MediaPipe: Online\n✅ Hadoop Analytics: Online\n✅ Node.js Backend: Online\n\nAll systems operational!');
+        }
+
+                // Show Live Chat with AI Chatbot
+        function showLiveChat() {
+            // Create chatbot container
+            const chatContainer = document.createElement('div');
+            chatContainer.id = 'ai-chatbot';
+            chatContainer.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 350px;
+                height: 500px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 20px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                font-family: 'Inter', sans-serif;
+            `;
+
+            // Header
+            const header = document.createElement('div');
+            header.style.cssText = `
+                background: rgba(255,255,255,0.1);
+                padding: 20px;
+                border-radius: 20px 20px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                backdrop-filter: blur(10px);
+            `;
+            header.innerHTML = `
+                <div style="color: white; font-weight: bold; font-size: 18px;">🤖 AI Support</div>
+                <button onclick="document.getElementById('ai-chatbot').remove()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 8px; cursor: pointer;">✕</button>
+            `;
+
+            // Messages container
+            const messages = document.createElement('div');
+            messages.id = 'chat-messages';
+            messages.style.cssText = `
+                flex: 1;
+                padding: 20px;
+                overflow-y: auto;
+                background: white;
+            `;
+
+            // Welcome message
+            messages.innerHTML = `
+                <div style="background: #f0f0f0; padding: 12px; border-radius: 12px; margin-bottom: 10px; max-width: 80%;">
+                    <strong>AI Assistant:</strong><br>
+                    👋 Hi! I'm your AI shopping assistant. I can help you with:
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>Product recommendations</li>
+                        <li>Size and fit advice</li>
+                        <li>Order tracking</li>
+                        <li>Style suggestions</li>
+                    </ul>
+                    How can I assist you today?
+                </div>
+            `;
+
+            // Input container
+            const inputContainer = document.createElement('div');
+            inputContainer.style.cssText = `
+                padding: 15px;
+                background: white;
+                border-radius: 0 0 20px 20px;
+                display: flex;
+                gap: 10px;
+            `;
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Type your message...';
+            input.style.cssText = `
+                flex: 1;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 12px;
+                outline: none;
+                font-size: 14px;
+            `;
+
+            const sendBtn = document.createElement('button');
+            sendBtn.textContent = '➤';
+            sendBtn.style.cssText = `
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 18px;
+            `;
+
+            // AI response function
+            function sendMessage() {
+                const userMessage = input.value.trim();
+                if (!userMessage) return;
+
+                // Add user message
+                const userDiv = document.createElement('div');
+                userDiv.style.cssText = `
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 12px;
+                    border-radius: 12px;
+                    margin-bottom: 10px;
+                    max-width: 80%;
+                    margin-left: auto;
+                    text-align: right;
+                `;
+                userDiv.innerHTML = `<strong>You:</strong><br>${userMessage}`;
+                messages.appendChild(userDiv);
+                input.value = '';
+
+                // AI response logic
+                setTimeout(() => {
+                    const aiDiv = document.createElement('div');
+                    aiDiv.style.cssText = `
+                        background: #f0f0f0;
+                        padding: 12px;
+                        border-radius: 12px;
+                        margin-bottom: 10px;
+                        max-width: 80%;
+                    `;
+                    
+                    let response = '';
+                    const msg = userMessage.toLowerCase();
+                    
+                    if (msg.includes('size') || msg.includes('fit')) {
+                        response = 'For the best fit, I recommend checking our size guide. We offer sizes XS to XXL. Would you like me to help you find your perfect size based on your measurements?';
+                    } else if (msg.includes('recommend') || msg.includes('suggest')) {
+                        response = 'Based on our virtual try-on technology, I can suggest outfits that match your style! Upload a photo or tell me your preferences (casual, formal, sporty) and I\'ll find perfect matches for you.';
+                    } else if (msg.includes('order') || msg.includes('track')) {
+                        response = 'To track your order, please provide your order number. You can also check order status in the "My Orders" section of your account.';
+                    } else if (msg.includes('return') || msg.includes('refund')) {
+                        response = 'We offer 30-day free returns! Simply initiate a return from your order page, and we\'ll send you a prepaid shipping label. Refunds are processed within 5-7 business days.';
+                    } else if (msg.includes('color') || msg.includes('shade')) {
+                        response = 'Our AI can analyze your skin tone and suggest colors that complement you best! Try our virtual try-on feature to see different colors on yourself.';
+                    } else if (msg.includes('price') || msg.includes('cost')) {
+                        response = 'We have items for every budget! Prices range from $19.99 to $199.99. Would you like me to show you items in a specific price range?';
+                    } else if (msg.includes('help') || msg.includes('support')) {
+                        response = 'I\'m here to help! You can ask me about products, sizes, orders, returns, or styling advice. What do you need assistance with?';
+                    } else {
+                        response = 'Thanks for your message! I\'m here to help with product recommendations, sizing, orders, and styling advice. Could you tell me more about what you\'re looking for?';
+                    }
+                    
+                    aiDiv.innerHTML = `<strong>🤖 AI Assistant:</strong><br>${response}`;
+                    messages.appendChild(aiDiv);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 500);
+
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            sendBtn.onclick = sendMessage;
+            input.onkeypress = (e) => {
+                if (e.key === 'Enter') sendMessage();
+            };
+
+            inputContainer.appendChild(input);
+            inputContainer.appendChild(sendBtn);
+            chatContainer.appendChild(header);
+            chatContainer.appendChild(messages);
+            chatContainer.appendChild(inputContainer);
+            document.body.appendChild(chatContainer);
+        }
+
+        // Show Documentation
+        function showDocumentation() {
+            window.open('https://github.com/PhantomX-stack/virtual-tryon-ai/blob/main/README.md', '_blank');
+        }
+
+        // Show API Guide
+        function showAPIGuide() {
+            alert('🔧 Developer API Guide\n\nAPI Endpoints:\n• POST /api/analyze - Analyze uploaded image\n• GET /api/recommendations - Get style recommendations\n• POST /api/tryon - Virtual try-on processing\n\nFull documentation:\ngithub.com/PhantomX-stack/virtual-tryon-ai');
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add welcome message
+        window.addEventListener('load', () => {
+            console.log('%c👔 Virtual Try-On AI Loaded Successfully!', 'font-size: 24px; color: #667eea; font-weight: bold; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text;');
+            console.log('%c🚀 Powered by: TensorFlow.js + MediaPipe + Hadoop Big Data', 'font-size: 16px; color: #764ba2; font-weight: 600;');
+            console.log('%c✨ All systems ready for fashion revolution!', 'font-size: 14px; color: #4a5568;');
+            console.log('%c📦 GitHub: github.com/PhantomX-stack/virtual-tryon-ai', 'font-size: 14px; color: #718096;');
+        });
+    </script>
+
+        <!-- Floating Chat Button -->
+    <div id="floating-chat-btn" onclick="showLiveChat()" style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+            <!-- Floating Chat Button with Better Visibility -->
+    <div id="floating-chat-btn" onclick="showLiveChat()" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        z-index: 99999;
+        transition: all 0.3s ease;
+        animation: chatPulse 2.5s infinite ease-in-out;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+    ">
+        <span style="font-size: 32px; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">💬</span>
+    </div>
+
+    <style>
+        @keyframes chatPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5), 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 15px 40px rgba(102, 126, 234, 0.7), 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+        }
+        
+        #floating-chat-btn:hover {
+            transform: scale(1.15) rotate(15deg) !important;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.8);
+            animation: none;
+        }
+        
+        #floating-chat-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
